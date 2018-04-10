@@ -14,6 +14,7 @@ import gnu.io.SerialPort;
 
 import java.io.InputStream;
 import java.util.Enumeration;
+import javax.swing.JLabel;
 
 /**
  *
@@ -25,9 +26,25 @@ public class LecturaSer extends Thread {
 	Enumeration puertos;
 	SerialPort serialport;
 	InputStream entrada = null;
-        JLabel 
-    public LecturaSer() {
+        JLabel label;
+        int baudrate;
+        String numport;
+
+    public LecturaSer(JLabel label, int baudrate, String numport) {
+        this.label = label;
+        this.baudrate = baudrate;
+        this.numport = numport;
     }
+            @Override
+    public void run()
+    {
+        while(true)
+        {
+            
+        }
+    }
+
+        
 
 }
 

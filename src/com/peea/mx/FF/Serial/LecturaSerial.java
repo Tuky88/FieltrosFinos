@@ -1,3 +1,5 @@
+package com.peea.mx.FF.Serial;
+
 import gnu.io.CommPortIdentifier;
 import gnu.io.SerialPort;
 
@@ -65,5 +67,5 @@ import java.util.Enumeration;
            }
        }
   }public static void main(String[] args) {
-	   new LecturaSerial("COM4",4800);
+	   new LecturaSerial("COM5",4800);
  		 }}
