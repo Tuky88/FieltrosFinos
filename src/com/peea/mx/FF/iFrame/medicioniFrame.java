@@ -5,6 +5,7 @@
  */
 package com.peea.mx.FF.iFrame;
 
+import com.peea.mx.FF.Serial.LecturaSer;
 import com.peea.mx.FF.utils.reloj;
 import java.awt.BorderLayout;
 import java.text.SimpleDateFormat;
@@ -23,10 +24,11 @@ import org.jfree.data.xy.XYSeries;
  */
 public class medicioniFrame extends javax.swing.JInternalFrame {
 
+    public LecturaSer ls;
     public LinkedList jt;
     public XYSeries[] series;
     public String[] valor = {"Espesor", "Tolerancia (+)", "Tolerancia (-)", "% Rango", "Estilo", "Cliente ", "P.O #", "Pieza",
-         "Peso", "Densidad", "Metros B", "Metros M", "Ancho B", "Ancho M"};
+        "Peso", "Densidad", "Metros B", "Metros M", "Ancho B", "Ancho M"};
     reloj r;
 
     public medicioniFrame() {
@@ -53,6 +55,7 @@ public class medicioniFrame extends javax.swing.JInternalFrame {
         Date hoy = new Date();
         SimpleDateFormat s = new SimpleDateFormat("dd/MM/yyyy");
         lblFecha.setText(s.format(hoy));
+
         //lblMed.setVisible(false);
         series[0] = new XYSeries("GROSOR (+)");
         series[1] = new XYSeries("GROSOR (-)");
@@ -63,14 +66,14 @@ public class medicioniFrame extends javax.swing.JInternalFrame {
         // Introduccion de datos
         DefaultCategoryDataset dataset = new DefaultCategoryDataset();
 
-        int n=10;
+        int n = 10;
         for (int j = 1; j < 15; j++) {
 
             dataset.addValue(8, "GROSOR (+)", "" + j);
             dataset.addValue(6, "GROSOR (-)", "" + j);
-            dataset.addValue((Math.random()*n)+1, "IZQUIERDA", "" + j);
-            dataset.addValue((Math.random()*n)+1, "CENTRO", "" + j);
-            dataset.addValue((Math.random()*n)+1, "DERECHA", "" + j);
+            dataset.addValue((Math.random() * n) + 1, "IZQUIERDA", "" + j);
+            dataset.addValue((Math.random() * n) + 1, "CENTRO", "" + j);
+            dataset.addValue((Math.random() * n) + 1, "DERECHA", "" + j);
 
         }
         JFreeChart chart = ChartFactory.createLineChart(
@@ -651,6 +654,11 @@ public class medicioniFrame extends javax.swing.JInternalFrame {
 
         btnFinalizarMed.setIcon(new javax.swing.ImageIcon(getClass().getResource("/com/peea/mx/FF/iconos/lista (2).png"))); // NOI18N
         btnFinalizarMed.setText("TERMINAR MEDICION");
+        btnFinalizarMed.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnFinalizarMedActionPerformed(evt);
+            }
+        });
 
         javax.swing.GroupLayout jPanel4Layout = new javax.swing.GroupLayout(jPanel4);
         jPanel4.setLayout(jPanel4Layout);
@@ -834,6 +842,10 @@ public class medicioniFrame extends javax.swing.JInternalFrame {
     private void txtAnchoBActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_txtAnchoBActionPerformed
         // TODO add your handling code here:
     }//GEN-LAST:event_txtAnchoBActionPerformed
+
+    private void btnFinalizarMedActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnFinalizarMedActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_btnFinalizarMedActionPerformed
 
 
     // Variables declaration - do not modify//GEN-BEGIN:variables

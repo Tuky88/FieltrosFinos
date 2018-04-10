@@ -5,21 +5,15 @@
  */
 package com.peea.mx.FF.controladores;
 
+import com.peea.mx.FF.Serial.LecturaSer;
 import com.peea.mx.FF.iFrame.medicioniFrame;
 import com.peea.mx.FF.utils.Convertidor;
-import java.awt.BorderLayout;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.text.DecimalFormat;
 import java.util.LinkedList;
 import javax.swing.JOptionPane;
 import javax.swing.JTextField;
-import org.jfree.chart.ChartFactory;
-import org.jfree.chart.ChartPanel;
-import org.jfree.chart.JFreeChart;
-import org.jfree.chart.plot.PlotOrientation;
-import org.jfree.data.xy.XYSeries;
-import org.jfree.data.xy.XYSeriesCollection;
 
 /**
  *
@@ -44,6 +38,7 @@ public class controladorMedir {
 
         @Override
         public void actionPerformed(ActionEvent e) {
+            //mi.ls.wait();
             if (!mi.btnIniciarMed.isEnabled()) {
                 JOptionPane.showMessageDialog(mi, "¡Fin de medición!", "AVISO", 2);
                 mi.txtTiempoFin.setText(mi.lblHora.getText());
@@ -63,20 +58,23 @@ public class controladorMedir {
 
         @Override
         public void actionPerformed(ActionEvent e) {
-            if (mi.txtAnchoB.getText().isEmpty() || mi.txtAnchoM.getText().isEmpty() || mi.txtCliente.getText().isEmpty() || mi.txtComB.getText().isEmpty()
-                    || mi.txtComP.getText().isEmpty() || mi.txtDensidad.getText().isEmpty() || mi.txtEspesorIn.getText().isEmpty() || mi.txtEspesorMM.getText().isEmpty()
-                    || mi.txtEstilo.getText().isEmpty() || mi.txtMetrosB.getText().isEmpty() || mi.txtMetrosM.getText().isEmpty() || mi.txtPO.getText().isEmpty()
-                    || mi.txtPeso.getText().isEmpty() || mi.txtPieza.getText().isEmpty() || mi.txtRangoMM.getText().isEmpty() || mi.txtToleranciaNegIn.getText().isEmpty()
-                    || mi.txtToleranciaNegMM.getText().isEmpty() || mi.txtToleranciaPosIn.getText().isEmpty() || mi.txtToleranciaPosMM.getText().isEmpty()) {
-                JOptionPane.showMessageDialog(mi, "¡Faltan campos!", "ERROR", 0);
-            } else {
-                JOptionPane.showMessageDialog(mi, "¡Comenzando medición!", "AVISO", 2);
-                mi.txtTiempoInicio.setText(mi.lblHora.getText());
-                mi.btnIniciarMed.setEnabled(false);
-                mi.btnFinalizarMed.setEnabled(true);
-                mi.btnCargarDatos.setEnabled(false);
-
-            }
+                    mi.ls=new LecturaSer(mi.txtMedidaIzq,4800,"COM5");
+        mi.ls.start();
+            
+//            if (mi.txtAnchoB.getText().isEmpty() || mi.txtAnchoM.getText().isEmpty() || mi.txtCliente.getText().isEmpty() || mi.txtComB.getText().isEmpty()
+//                    || mi.txtComP.getText().isEmpty() || mi.txtDensidad.getText().isEmpty() || mi.txtEspesorIn.getText().isEmpty() || mi.txtEspesorMM.getText().isEmpty()
+//                    || mi.txtEstilo.getText().isEmpty() || mi.txtMetrosB.getText().isEmpty() || mi.txtMetrosM.getText().isEmpty() || mi.txtPO.getText().isEmpty()
+//                    || mi.txtPeso.getText().isEmpty() || mi.txtPieza.getText().isEmpty() || mi.txtRangoMM.getText().isEmpty() || mi.txtToleranciaNegIn.getText().isEmpty()
+//                    || mi.txtToleranciaNegMM.getText().isEmpty() || mi.txtToleranciaPosIn.getText().isEmpty() || mi.txtToleranciaPosMM.getText().isEmpty()) {
+//                JOptionPane.showMessageDialog(mi, "¡Faltan campos!", "ERROR", 0);
+//            } else {
+//                JOptionPane.showMessageDialog(mi, "¡Comenzando medición!", "AVISO", 2);
+//                mi.txtTiempoInicio.setText(mi.lblHora.getText());
+//                mi.btnIniciarMed.setEnabled(false);
+//                mi.btnFinalizarMed.setEnabled(true);
+//                mi.btnCargarDatos.setEnabled(false);
+//
+//            }
         }
     }
 
