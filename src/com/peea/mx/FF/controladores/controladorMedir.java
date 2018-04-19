@@ -5,6 +5,7 @@
  */
 package com.peea.mx.FF.controladores;
 
+import com.peea.mx.FF.Serial.LecSer;
 import com.peea.mx.FF.Serial.LecturaSer;
 import com.peea.mx.FF.iFrame.medicioniFrame;
 import com.peea.mx.FF.utils.Convertidor;
@@ -58,9 +59,10 @@ public class controladorMedir {
 
         @Override
         public void actionPerformed(ActionEvent e) {
-                    mi.ls=new LecturaSer(mi.txtMedidaIzq,4800,"COM5");
-        mi.ls.start();
-            
+                    //mi.ls=new LecturaSer(mi.txtMedidaIzq,4800,"COM4");
+        //mi.ls.start();
+            mi.ls=new LecturaSer(mi.txtMedidaIzq,4800,"COM5");
+            mi.ls.start();
 //            if (mi.txtAnchoB.getText().isEmpty() || mi.txtAnchoM.getText().isEmpty() || mi.txtCliente.getText().isEmpty() || mi.txtComB.getText().isEmpty()
 //                    || mi.txtComP.getText().isEmpty() || mi.txtDensidad.getText().isEmpty() || mi.txtEspesorIn.getText().isEmpty() || mi.txtEspesorMM.getText().isEmpty()
 //                    || mi.txtEstilo.getText().isEmpty() || mi.txtMetrosB.getText().isEmpty() || mi.txtMetrosM.getText().isEmpty() || mi.txtPO.getText().isEmpty()

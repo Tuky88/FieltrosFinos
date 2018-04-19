@@ -22,7 +22,7 @@ import javax.swing.JTextField;
  *
  * @author Sistemas
  */
-public class LecturaSer extends Thread {
+public class LecSer {
 
     CommPortIdentifier portId;
     Enumeration puertos;
@@ -32,7 +32,7 @@ public class LecturaSer extends Thread {
     int baudrate;
     String numport;
 
-    public LecturaSer(JTextField label, int baudrate, String numport) {
+    public LecSer(JTextField label, int baudrate, String numport) {
         this.label = label;
         this.baudrate = baudrate;
         this.numport = numport;
@@ -56,49 +56,13 @@ public class LecturaSer extends Thread {
         }
     }
 
-    @Override
-    public void run() {
-
-        String valor = "", valorsito = "/";
-        int aux = 1;
-        System.out.println("Lectura:");
-        label.setText("");
-        while (aux != -1) {
-            try {
-                valorsito = valor;
-                aux = entrada.read(); // aqui estamos obteniendo nuestro dato serial
-                Thread.sleep(5);
-                //System.out.println(aux);
-                if (aux > 0) {
-
-                    //System.out.print();//imprimimos el dato serial
-                    //System.out.print(Integer.decode(Integer.toHexString(aux)));
-                    //System.out.print((char)(aux));
-                    valor += (char) (aux);
-                    //System.out.println(valor +"//"+valorsito);
-
-                } else {
-                    System.out.println("termino la lectura.");
-                }
-            } catch (Exception e) {
-            }
-
-            System.out.println(valorsito);
-            if(valorsito.length()>8)
-            label.setText(valorsito.substring( valorsito.length()-8,valorsito.length()));
-            else
-            label.setText(valorsito);    
-            valorsito = "";
-        }
-    }
-
     public String capturar() {
 
         String valor = "", valorsito = "/";
         int aux = 1;
         System.out.println("Lectura:");
         label.setText("");
-        while (aux != 13) {
+        while (aux!=13) {
             try {
                 valorsito = valor;
                 aux = entrada.read(); // aqui estamos obteniendo nuestro dato serial
@@ -118,8 +82,10 @@ public class LecturaSer extends Thread {
             } catch (Exception e) {
             }
 
+            
         }
         System.out.println(valorsito);
         return valorsito;
     }
+
 }

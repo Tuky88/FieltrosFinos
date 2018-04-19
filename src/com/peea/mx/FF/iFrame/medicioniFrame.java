@@ -5,6 +5,7 @@
  */
 package com.peea.mx.FF.iFrame;
 
+import com.peea.mx.FF.Serial.LecSer;
 import com.peea.mx.FF.Serial.LecturaSer;
 import com.peea.mx.FF.utils.reloj;
 import java.awt.BorderLayout;
@@ -25,6 +26,7 @@ import org.jfree.data.xy.XYSeries;
 public class medicioniFrame extends javax.swing.JInternalFrame {
 
     public LecturaSer ls;
+    public LecSer lss;
     public LinkedList jt;
     public XYSeries[] series;
     public String[] valor = {"Espesor", "Tolerancia (+)", "Tolerancia (-)", "% Rango", "Estilo", "Cliente ", "P.O #", "Pieza",
