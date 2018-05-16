@@ -9,6 +9,7 @@ import com.peea.mx.FF.vistas.principalVista;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import javax.swing.JInternalFrame;
+import javax.swing.JOptionPane;
 
 /**
  *
@@ -22,9 +23,13 @@ public class controladorPrincipal {
         this.pv = pv;
         this.pv.menuIAbrir.addActionListener(new Abrir(this.pv.mi));
         this.pv.menuIInfo.addActionListener(new Abrir(this.pv.ci));
+        this.pv.menuInfor.addActionListener(new Abrir(this.pv.ii));
         this.pv.ci.btnGuardar.addActionListener(new Cargar());
         this.pv.ci.btnGuardar.doClick();
+       // this.pv.mi.btnFinalizarMed.addActionListener(new FinalizarMed());
     }
+
+
 
     private class Abrir implements ActionListener {
 

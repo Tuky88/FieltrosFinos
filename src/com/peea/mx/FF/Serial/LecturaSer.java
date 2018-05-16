@@ -5,17 +5,16 @@
  */
 package com.peea.mx.FF.Serial;
 
-import static com.peea.mx.FF.Serial.LecturaSerial.entrada;
-import gnu.io.CommPortIdentifier;
-import gnu.io.SerialPort;
-import java.io.InputStream;
-import java.util.Enumeration;
+import com.peea.mx.FF.modelos.Medicion;
+import com.peea.mx.FF.utils.graficadorLineal;
 import gnu.io.CommPortIdentifier;
 import gnu.io.SerialPort;
 
 import java.io.InputStream;
 import java.util.Enumeration;
+import java.util.LinkedList;
 import javax.swing.JLabel;
+import javax.swing.JPanel;
 import javax.swing.JTextField;
 
 /**
@@ -28,42 +27,88 @@ public class LecturaSer extends Thread {
     Enumeration puertos;
     SerialPort serialport;
     InputStream entrada = null;
-    JTextField label;
+    JTextField label1;
+    JTextField label2;
+    JTextField label3;
+    JTextField label5;
+    JTextField label6;
+    JTextField cont;
     int baudrate;
     String numport;
+    Boolean bandera;
+    graficadorLineal graf;
+    JLabel estado;
+    LinkedList linked;
+    String[] indices;
+    JPanel panelin;
 
-    public LecturaSer(JTextField label, int baudrate, String numport) {
-        this.label = label;
+    public graficadorLineal getGraf() {
+        return graf;
+    }
+
+    public void setGraf(graficadorLineal graf) {
+        this.graf = graf;
+    }
+
+    public LecturaSer(String[] indices, JPanel panelin, JTextField label1, JTextField label2, JTextField label3, JTextField cont, JTextField label5,
+            JTextField label6, int baudrate, String numport, JLabel lbl, LinkedList ls) {
+        this.label1 = label1;
+        this.label2 = label2;
+        this.label3 = label3;
+        this.cont = cont;
         this.baudrate = baudrate;
         this.numport = numport;
-        puertos = CommPortIdentifier.getPortIdentifiers();
+        this.estado = lbl;
+        bandera = false;
+        this.linked = ls;
+        this.indices=indices;
+        this.panelin=panelin;
+        this.label5=label5;
+        this.label6=label6;
+        this.iniGrafica();
+       puertos = CommPortIdentifier.getPortIdentifiers();
         while (puertos.hasMoreElements()) { //para recorrer el numero de los puertos, y especificar con cual quiero trabajar 
             //hasmorelements mientras tenga mas eleementos
             portId = (CommPortIdentifier) puertos.nextElement(); //next elemento recorre uno por uno
             System.out.println(portId.getName()); //puertos disponbibles
             if (portId.getName().equalsIgnoreCase(this.numport)) {
+                //System.out.println(portId.getName());
                 try {
                     serialport = (SerialPort) portId.open("LecturaSerial", 100);//tiempo en ms
                     serialport.setSerialPortParams(baudrate, 8, 1, 0);
                     serialport.setDTR(true);
                     System.out.println(serialport.getBaudRate() + "//" + serialport.getDataBits() + "//");
                     entrada = serialport.getInputStream();//esta variable del tipo InputStream obtiene el dato serial
-                    System.out.println("dfsdfsdf");// inciamos el hilo para realizar nuestra accion de imprimir el dato serial
-
+                    //System.out.println("dfsdfsdf");// inciamos el hilo para realizar nuestra accion de imprimir el dato serial
                 } catch (Exception e) {
                 }
             }
         }
     }
 
+    public Boolean getBandera() {
+        return bandera;
+    }
+
+    public void setBandera(Boolean bandera) {
+        this.bandera = bandera;
+    }
+    public void iniGrafica()
+    {
+         graf = new graficadorLineal(this.indices, this.panelin, this.label1, this.label2, this.label3, this.cont, this.label5, this.label6);
+        
+    }
+
     @Override
     public void run() {
 
         String valor = "", valorsito = "/";
-        int aux = 1;
-        System.out.println("Lectura:");
-        label.setText("");
-        while (aux != -1) {
+        int aux;
+        int contador = 0;
+        int contadorPulsos=0;
+
+        while (bandera) {
+            System.out.println("esperando...");
             try {
                 valorsito = valor;
                 aux = entrada.read(); // aqui estamos obteniendo nuestro dato serial
@@ -75,6 +120,7 @@ public class LecturaSer extends Thread {
                     //System.out.print(Integer.decode(Integer.toHexString(aux)));
                     //System.out.print((char)(aux));
                     valor += (char) (aux);
+                    contador++;
                     //System.out.println(valor +"//"+valorsito);
 
                 } else {
@@ -83,43 +129,47 @@ public class LecturaSer extends Thread {
             } catch (Exception e) {
             }
 
-            System.out.println(valorsito);
-            if(valorsito.length()>8)
-            label.setText(valorsito.substring( valorsito.length()-8,valorsito.length()));
-            else
-            label.setText(valorsito);    
+            //System.out.println(valorsito +"//" +valorsito.length());
+            if (valorsito.length() > 24 && !estado.getText().equals("X")) {
+                String[] c = valorsito.split(":");
+                //System.out.println("cuantos hubo:" +c.length);
+                String x = c[c.length - 3].substring(0, c[c.length - 3].length() - 1);
+                String y = c[c.length - 2].substring(0, c[c.length - 2].length() - 1);
+                String z = c[c.length - 1].substring(0, c[c.length - 1].length());
+                label1.setText(x);
+                label2.setText(y);
+                label3.setText(z);
+                //linked.add(md);
+//            label1.setText(valorsito.substring( valorsito.length()-6,valorsito.length()));
+//            label2.setText(valorsito.substring( valorsito.length()-16,valorsito.length()-10));
+//            label3.setText(valorsito.substring( valorsito.length()-22,valorsito.length()-17));
+                //cont.setText(String.valueOf(Double.parseDouble(cont.getText()) + 0.1));
+            }
+            System.out.println("Contador:" + contador);
+            if (estado.getText().equals("X")) {
+                contadorPulsos=0;
+            }
+            if (contador == 33 ){
+                contador=0;
+                if(!estado.getText().equals("X")) {
+                
+                contadorPulsos++;
+                Medicion md = new Medicion(contadorPulsos,Double.parseDouble(graf.getJ1().getText()), Double.parseDouble(graf.getJ2().getText()),
+                        Double.parseDouble(graf.getJ3().getText()));
+                this.linked.add(md);
+                graf.graficar();
+                contador = 0;
+                
+                } 
+            }
+
             valorsito = "";
         }
+        close();
     }
 
-    public String capturar() {
-
-        String valor = "", valorsito = "/";
-        int aux = 1;
-        System.out.println("Lectura:");
-        label.setText("");
-        while (aux != 13) {
-            try {
-                valorsito = valor;
-                aux = entrada.read(); // aqui estamos obteniendo nuestro dato serial
-                Thread.sleep(5);
-                //System.out.println(aux);
-                if (aux > 0) {
-
-                    //System.out.print();//imprimimos el dato serial
-                    //System.out.print(Integer.decode(Integer.toHexString(aux)));
-                    //System.out.print((char)(aux));
-                    valor += (char) (aux);
-                    //System.out.println(valor +"//"+valorsito);
-
-                } else {
-                    System.out.println("termino la lectura.");
-                }
-            } catch (Exception e) {
-            }
-
-        }
-        System.out.println(valorsito);
-        return valorsito;
+    public void close() {
+        bandera = false;
+        serialport.close();
     }
 }

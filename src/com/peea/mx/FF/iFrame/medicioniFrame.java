@@ -5,18 +5,13 @@
  */
 package com.peea.mx.FF.iFrame;
 
-import com.peea.mx.FF.Serial.LecSer;
+
 import com.peea.mx.FF.Serial.LecturaSer;
+import com.peea.mx.FF.utils.graficadorLineal;
 import com.peea.mx.FF.utils.reloj;
-import java.awt.BorderLayout;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.LinkedList;
-import org.jfree.chart.ChartFactory;
-import org.jfree.chart.ChartPanel;
-import org.jfree.chart.JFreeChart;
-import org.jfree.chart.plot.PlotOrientation;
-import org.jfree.data.category.DefaultCategoryDataset;
 import org.jfree.data.xy.XYSeries;
 
 /**
@@ -26,15 +21,25 @@ import org.jfree.data.xy.XYSeries;
 public class medicioniFrame extends javax.swing.JInternalFrame {
 
     public LecturaSer ls;
-    public LecSer lss;
-    public LinkedList jt;
+    private String com;
+    public graficadorLineal g;
+    public LinkedList jt,med;
     public XYSeries[] series;
     public String[] valor = {"Espesor", "Tolerancia (+)", "Tolerancia (-)", "% Rango", "Estilo", "Cliente ", "P.O #", "Pieza",
         "Peso", "Densidad", "Metros B", "Metros M", "Ancho B", "Ancho M"};
     reloj r;
 
-    public medicioniFrame() {
+    public String getCom() {
+        return com;
+    }
+
+    public void setCom(String com) {
+        this.com = com;
+    }
+
+    public medicioniFrame(String com) {
         initComponents();
+        this.com=com;
         r = new reloj(lblHora);
         r.start();
         jt = new LinkedList();
@@ -53,48 +58,45 @@ public class medicioniFrame extends javax.swing.JInternalFrame {
         jt.add(txtAnchoB);
         jt.add(txtAnchoM);
         System.out.println(jt.size());
-        series = new XYSeries[5];
+        
         Date hoy = new Date();
         SimpleDateFormat s = new SimpleDateFormat("dd/MM/yyyy");
         lblFecha.setText(s.format(hoy));
-
+        lblExtado.setVisible(false);
         //lblMed.setVisible(false);
-        series[0] = new XYSeries("GROSOR (+)");
-        series[1] = new XYSeries("GROSOR (-)");
-        series[2] = new XYSeries("IZQUIERDA");
-        series[3] = new XYSeries("CENTRO");
-        series[4] = new XYSeries("DERECHO");
+        
 
         // Introduccion de datos
-        DefaultCategoryDataset dataset = new DefaultCategoryDataset();
+       // DefaultCategoryDataset dataset = new DefaultCategoryDataset();
 
-        int n = 10;
-        for (int j = 1; j < 15; j++) {
-
-            dataset.addValue(8, "GROSOR (+)", "" + j);
-            dataset.addValue(6, "GROSOR (-)", "" + j);
-            dataset.addValue((Math.random() * n) + 1, "IZQUIERDA", "" + j);
-            dataset.addValue((Math.random() * n) + 1, "CENTRO", "" + j);
-            dataset.addValue((Math.random() * n) + 1, "DERECHA", "" + j);
-
-        }
-        JFreeChart chart = ChartFactory.createLineChart(
-                "", // Título
-                "Tiempo", // Etiqueta Coordenada X
-                "Grosor", // Etiqueta Coordenada Y
-                dataset, // Datos
-                PlotOrientation.VERTICAL,
-                true, // Muestra la leyenda de los productos (Producto A)
-                true,
-                true
-        );
-
-        // Mostramos la grafica en pantalla
-        ChartPanel panelin = new ChartPanel(chart);
-        grafica.setLayout(new java.awt.BorderLayout());
-        grafica.add(panelin, BorderLayout.CENTER);
-        grafica.validate();
-
+//        int n = 10;
+//        for (int j = 1; j < 5; j++) {
+//
+//            dataset.addValue(8, "GROSOR (+)", "" + j);
+//            dataset.addValue(6, "GROSOR (-)", "" + j);
+//            dataset.addValue((Math.random() * n) + 1, "IZQUIERDA", "" + j);
+//            dataset.addValue((Math.random() * n) + 1, "CENTRO", "" + j);
+//            dataset.addValue((Math.random() * n) + 1, "DERECHA", "" + j);
+//
+//        }
+        
+//        JFreeChart chart = ChartFactory.createLineChart(
+//                "", // Título
+//                "Tiempo", // Etiqueta Coordenada X
+//                "Grosor", // Etiqueta Coordenada Y
+//                dataset, // Datos
+//                PlotOrientation.VERTICAL,
+//                true, // Muestra la leyenda de los productos (Producto A)
+//                true,
+//                true
+//        );
+//dataset.addValue(1, "DERECHA", ""+14);
+//        // Mostramos la grafica en pantalla
+//        ChartPanel panelin = new ChartPanel(chart);
+//        grafica.setLayout(new java.awt.BorderLayout());
+//        grafica.add(panelin, BorderLayout.CENTER);
+//        grafica.validate();
+//dataset.addValue(1, "DERECHA", ""+15);
     }
 
     /**
@@ -164,6 +166,7 @@ public class medicioniFrame extends javax.swing.JInternalFrame {
         txtAnchoB = new javax.swing.JTextField();
         lblTextNum = new javax.swing.JLabel();
         lblMed = new javax.swing.JLabel();
+        lblExtado = new javax.swing.JLabel();
         jPanel4 = new javax.swing.JPanel();
         btnCargarDatos = new javax.swing.JButton();
         btnIniciarMed = new javax.swing.JButton();
@@ -176,7 +179,6 @@ public class medicioniFrame extends javax.swing.JInternalFrame {
         setClosable(true);
         setDefaultCloseOperation(javax.swing.WindowConstants.HIDE_ON_CLOSE);
         setIconifiable(true);
-        setMaximizable(true);
         setResizable(true);
         setTitle("PRINCIPAL");
         setFrameIcon(new javax.swing.ImageIcon(getClass().getResource("/com/peea/mx/FF/imagenes/icono_opt.png"))); // NOI18N
@@ -234,6 +236,7 @@ public class medicioniFrame extends javax.swing.JInternalFrame {
 
         jLabel8.setText("% Rango");
 
+        txtEstilo.setText("chido");
         txtEstilo.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 txtEstiloActionPerformed(evt);
@@ -242,6 +245,7 @@ public class medicioniFrame extends javax.swing.JInternalFrame {
 
         jLabel9.setText("Estilo:");
 
+        txtCliente.setText("Axel");
         txtCliente.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 txtClienteActionPerformed(evt);
@@ -250,6 +254,7 @@ public class medicioniFrame extends javax.swing.JInternalFrame {
 
         jLabel10.setText("Cliente:");
 
+        txtPO.setText("123");
         txtPO.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 txtPOActionPerformed(evt);
@@ -258,6 +263,7 @@ public class medicioniFrame extends javax.swing.JInternalFrame {
 
         jLabel11.setText("P.O. #");
 
+        txtPieza.setText("chica");
         txtPieza.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 txtPiezaActionPerformed(evt);
@@ -266,6 +272,7 @@ public class medicioniFrame extends javax.swing.JInternalFrame {
 
         jLabel12.setText("Pieza:");
 
+        txtPeso.setText("mucho");
         txtPeso.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 txtPesoActionPerformed(evt);
@@ -287,6 +294,8 @@ public class medicioniFrame extends javax.swing.JInternalFrame {
 
         jLabel17.setText("T Fin:");
 
+        txtTiempoFin.setText("bnbn");
+        txtTiempoFin.setToolTipText("");
         txtTiempoFin.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 txtTiempoFinActionPerformed(evt);
@@ -303,6 +312,7 @@ public class medicioniFrame extends javax.swing.JInternalFrame {
 
         jLabel19.setText("Med Izq:");
 
+        txtMedidaIzq.setText("5.9");
         txtMedidaIzq.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 txtMedidaIzqActionPerformed(evt);
@@ -311,6 +321,7 @@ public class medicioniFrame extends javax.swing.JInternalFrame {
 
         jLabel20.setText("Med Centro:");
 
+        txtMedidaCentro.setText("0.0");
         txtMedidaCentro.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 txtMedidaCentroActionPerformed(evt);
@@ -319,6 +330,7 @@ public class medicioniFrame extends javax.swing.JInternalFrame {
 
         jLabel21.setText("Med Der:");
 
+        txtMedidaDerecha.setText("0.0");
         txtMedidaDerecha.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 txtMedidaDerechaActionPerformed(evt);
@@ -391,6 +403,9 @@ public class medicioniFrame extends javax.swing.JInternalFrame {
 
         lblTextNum.setFont(new java.awt.Font("Dialog", 0, 14)); // NOI18N
 
+        lblExtado.setText("jLabel1");
+        lblExtado.setToolTipText("");
+
         javax.swing.GroupLayout jPanel3Layout = new javax.swing.GroupLayout(jPanel3);
         jPanel3.setLayout(jPanel3Layout);
         jPanel3Layout.setHorizontalGroup(
@@ -440,16 +455,21 @@ public class medicioniFrame extends javax.swing.JInternalFrame {
                         .addGap(0, 0, Short.MAX_VALUE)))
                 .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
                     .addGroup(jPanel3Layout.createSequentialGroup()
-                        .addGap(339, 339, 339)
-                        .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                        .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addGroup(jPanel3Layout.createSequentialGroup()
-                                .addComponent(jLabel25)
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                                .addComponent(txtComP, javax.swing.GroupLayout.PREFERRED_SIZE, 124, javax.swing.GroupLayout.PREFERRED_SIZE))
+                                .addGap(339, 339, 339)
+                                .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                                    .addGroup(jPanel3Layout.createSequentialGroup()
+                                        .addComponent(jLabel25)
+                                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                                        .addComponent(txtComP, javax.swing.GroupLayout.PREFERRED_SIZE, 124, javax.swing.GroupLayout.PREFERRED_SIZE))
+                                    .addGroup(jPanel3Layout.createSequentialGroup()
+                                        .addComponent(jLabel26)
+                                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                                        .addComponent(txtComB, javax.swing.GroupLayout.PREFERRED_SIZE, 124, javax.swing.GroupLayout.PREFERRED_SIZE))))
                             .addGroup(jPanel3Layout.createSequentialGroup()
-                                .addComponent(jLabel26)
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                                .addComponent(txtComB, javax.swing.GroupLayout.PREFERRED_SIZE, 124, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                                .addGap(177, 177, 177)
+                                .addComponent(lblExtado)))
                         .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
                             .addGroup(jPanel3Layout.createSequentialGroup()
                                 .addGap(101, 101, 101)
@@ -530,8 +550,8 @@ public class medicioniFrame extends javax.swing.JInternalFrame {
                                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                                         .addComponent(txtTiempoFin, javax.swing.GroupLayout.PREFERRED_SIZE, 124, javax.swing.GroupLayout.PREFERRED_SIZE))
                                     .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel3Layout.createSequentialGroup()
-                                        .addComponent(lblMed)
-                                        .addGap(44, 44, 44)))))))
+                                        .addComponent(lblMed, javax.swing.GroupLayout.PREFERRED_SIZE, 28, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                        .addGap(35, 35, 35)))))))
                 .addContainerGap())
         );
         jPanel3Layout.setVerticalGroup(
@@ -540,7 +560,8 @@ public class medicioniFrame extends javax.swing.JInternalFrame {
                 .addContainerGap()
                 .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel19)
-                    .addComponent(txtMedidaIzq, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addComponent(txtMedidaIzq, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(lblExtado))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel20)
@@ -569,9 +590,9 @@ public class medicioniFrame extends javax.swing.JInternalFrame {
                         .addComponent(jLabel9)
                         .addComponent(txtEstilo, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                     .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                    .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                         .addComponent(jLabel10)
-                        .addComponent(txtCliente, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addComponent(txtCliente, javax.swing.GroupLayout.PREFERRED_SIZE, 19, javax.swing.GroupLayout.PREFERRED_SIZE))
                     .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                     .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                         .addComponent(jLabel11)
@@ -594,21 +615,17 @@ public class medicioniFrame extends javax.swing.JInternalFrame {
                                 .addComponent(txtAnchoB, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                                 .addComponent(jLabel30)))
                         .addGroup(jPanel3Layout.createSequentialGroup()
-                            .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                .addGroup(jPanel3Layout.createSequentialGroup()
-                                    .addGap(15, 15, 15)
-                                    .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                                        .addComponent(txtDensidad, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                        .addComponent(jLabel22))
-                                    .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                    .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                                        .addComponent(txtMetrosM, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                        .addComponent(jLabel23))
-                                    .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED))
-                                .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel3Layout.createSequentialGroup()
-                                    .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                    .addComponent(lblMed)
-                                    .addGap(23, 23, 23)))
+                            .addGap(15, 15, 15)
+                            .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                                .addComponent(txtDensidad, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addComponent(jLabel22))
+                            .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                            .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                                .addComponent(lblMed, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                                .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                                    .addComponent(txtMetrosM, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                    .addComponent(jLabel23)))
+                            .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                             .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                                 .addComponent(txtAnchoM, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                                 .addComponent(jLabel24)
@@ -695,6 +712,7 @@ public class medicioniFrame extends javax.swing.JInternalFrame {
         lblHora.setIcon(new javax.swing.ImageIcon(getClass().getResource("/com/peea/mx/FF/iconos/reloj-de-pared.png"))); // NOI18N
         lblHora.setText("jLabel16");
 
+        grafica.setBackground(new java.awt.Color(51, 55, 55));
         grafica.setBorder(javax.swing.BorderFactory.createCompoundBorder());
 
         javax.swing.GroupLayout graficaLayout = new javax.swing.GroupLayout(grafica);
@@ -887,6 +905,7 @@ public class medicioniFrame extends javax.swing.JInternalFrame {
     private javax.swing.JPanel jPanel5;
     public javax.swing.JLabel lblDireccion;
     public javax.swing.JLabel lblEmpresa;
+    public javax.swing.JLabel lblExtado;
     public javax.swing.JLabel lblFecha;
     public javax.swing.JLabel lblHora;
     public javax.swing.JLabel lblMed;

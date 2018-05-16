@@ -5,26 +5,31 @@
  */
 package com.peea.mx.FF.utils;
 
+import java.text.DecimalFormat;
+
 /**
  *
  * @author Sistemas
  */
 public class Convertidor {
+
     private double valor;
+    DecimalFormat df = new DecimalFormat("#.000");
 
     public Convertidor() {
-        
+
     }
-    public double MMtoIN(double valor)
-    {
-        System.out.println(valor/25.4);
-        return valor/25.4;
+
+    public double MMtoIN(double valor) {
+        System.out.println(valor / 25.4);
+        double res=valor / 25.4;
+        return Double.parseDouble(df.format(res));
     }
-    
-    public double INtoMM(double valor)
-    {
-        System.out.println(valor*25.4);
-        return valor*25.4;
+
+    public double INtoMM(double valor) {
+        System.out.println(valor * 25.4);
+        double res=valor * 25.4;
+        return Double.parseDouble(df.format(res));
     }
 
     public double getValor() {
@@ -35,7 +40,4 @@ public class Convertidor {
         this.valor = valor;
     }
 
-   
-    
-    
 }

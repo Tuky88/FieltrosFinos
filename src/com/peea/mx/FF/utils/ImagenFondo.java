@@ -13,6 +13,7 @@ import java.awt.Component;
 import java.awt.Graphics;
 import java.awt.Insets;
 import java.awt.image.BufferedImage;
+import java.io.File;
 import java.net.URL;
 import javax.imageio.ImageIO;
 import javax.swing.border.Border;
@@ -21,20 +22,14 @@ import javax.swing.border.Border;
 public class ImagenFondo implements Border{
     public BufferedImage back;
  
-    public ImagenFondo(){
-        try {
-            String ruta="../imagenes/";
-            String imagen="fondo.png";
-            URL imagePath = new URL(getClass().getResource(ruta+imagen).toString());
-            back = ImageIO.read(imagePath);
-        } catch (Exception ex) {            
-        }
-    }
+
          public ImagenFondo(String imagen){
         try {
             String ruta="../imagenes/";
+            File imagenruta=new File(ruta);
             URL imagePath = new URL(getClass().getResource(ruta+imagen).toString());
-            back = ImageIO.read(imagePath);
+            System.out.println(imagePath.getFile());
+            back = ImageIO.read(imagenruta.getAbsoluteFile());
         } catch (Exception ex) {            
         }
     }
