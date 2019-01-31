@@ -6,7 +6,10 @@
 package com.peea.mx.FF.Serial;
 
 import com.peea.mx.FF.modelos.Medicion;
+import com.peea.mx.FF.utils.CustomRenderer;
 import com.peea.mx.FF.utils.graficadorLineal;
+import com.peea.mx.FF.utils.graficadorUnico;
+import com.peea.mx.FF.utils.tablaChida;
 import gnu.io.CommPortIdentifier;
 import gnu.io.SerialPort;
 
@@ -14,8 +17,12 @@ import java.io.InputStream;
 import java.util.Enumeration;
 import java.util.LinkedList;
 import javax.swing.JLabel;
+import javax.swing.JOptionPane;
 import javax.swing.JPanel;
+import javax.swing.JTable;
 import javax.swing.JTextField;
+import javax.swing.table.DefaultTableModel;
+import javax.swing.table.TableColumn;
 
 /**
  *
@@ -23,6 +30,7 @@ import javax.swing.JTextField;
  */
 public class LecturaSer extends Thread {
 
+    int contadorPulsos = 0;
     CommPortIdentifier portId;
     Enumeration puertos;
     SerialPort serialport;
@@ -37,10 +45,14 @@ public class LecturaSer extends Thread {
     String numport;
     Boolean bandera;
     graficadorLineal graf;
+    graficadorUnico grafIzq, grafCentro, grafDer;
     JLabel estado;
     LinkedList linked;
     String[] indices;
     JPanel panelin;
+    JPanel panelizq, panelcentro, panelder;
+    public tablaChida tc;
+    private JTable jtable;
 
     public graficadorLineal getGraf() {
         return graf;
@@ -51,22 +63,28 @@ public class LecturaSer extends Thread {
     }
 
     public LecturaSer(String[] indices, JPanel panelin, JTextField label1, JTextField label2, JTextField label3, JTextField cont, JTextField label5,
-            JTextField label6, int baudrate, String numport, JLabel lbl, LinkedList ls) {
+            JTextField label6, int baudrate, String numport, JLabel lbl, LinkedList ls, tablaChida tc, JTable jt,
+            JPanel j1, JPanel j2, JPanel j3) {
         this.label1 = label1;
         this.label2 = label2;
         this.label3 = label3;
         this.cont = cont;
+        this.jtable = jt;
         this.baudrate = baudrate;
         this.numport = numport;
         this.estado = lbl;
         bandera = false;
         this.linked = ls;
-        this.indices=indices;
-        this.panelin=panelin;
-        this.label5=label5;
-        this.label6=label6;
+        this.indices = indices;
+        this.panelin = panelin;
+        this.label5 = label5;
+        this.label6 = label6;
+        this.tc = tc;
+        this.panelizq = j1;
+        this.panelcentro = j2;
+        this.panelder = j3;
         this.iniGrafica();
-       puertos = CommPortIdentifier.getPortIdentifiers();
+        puertos = CommPortIdentifier.getPortIdentifiers();
         while (puertos.hasMoreElements()) { //para recorrer el numero de los puertos, y especificar con cual quiero trabajar 
             //hasmorelements mientras tenga mas eleementos
             portId = (CommPortIdentifier) puertos.nextElement(); //next elemento recorre uno por uno
@@ -93,83 +111,138 @@ public class LecturaSer extends Thread {
     public void setBandera(Boolean bandera) {
         this.bandera = bandera;
     }
-    public void iniGrafica()
-    {
-         graf = new graficadorLineal(this.indices, this.panelin, this.label1, this.label2, this.label3, this.cont, this.label5, this.label6);
-        
+
+    public void iniGrafica() {
+        graf = new graficadorLineal(this.indices, this.panelin, this.label1, this.label2, this.label3, this.cont, this.label5, this.label6);
+        grafIzq = new graficadorUnico(this.indices, this.panelizq, this.label1, this.label5, this.label6, this.cont, "Izquierda", 1);
+        grafCentro = new graficadorUnico(this.indices, this.panelcentro, this.label2, this.label5, this.label6, this.cont, "Centro", 2);
+        grafDer = new graficadorUnico(this.indices, this.panelder, this.label3, this.label5, this.label6, this.cont, "Derecha", 3);
     }
 
     @Override
     public void run() {
 
-        String valor = "", valorsito = "/";
+        String valor = "", valorsito = "";
         int aux;
         int contador = 0;
-        int contadorPulsos=0;
 
-        while (bandera) {
-            System.out.println("esperando...");
+        while (true) {
+            //System.out.println("esperando...");
             try {
                 valorsito = valor;
                 aux = entrada.read(); // aqui estamos obteniendo nuestro dato serial
-                Thread.sleep(5);
+                //Thread.sleep(5);
                 //System.out.println(aux);
                 if (aux > 0) {
 
                     //System.out.print();//imprimimos el dato serial
                     //System.out.print(Integer.decode(Integer.toHexString(aux)));
-                    //System.out.print((char)(aux));
+                    System.out.print((char) (aux));
                     valor += (char) (aux);
                     contador++;
-                    //System.out.println(valor +"//"+valorsito);
 
-                } else {
-                    System.out.println("termino la lectura.");
                 }
             } catch (Exception e) {
             }
 
             //System.out.println(valorsito +"//" +valorsito.length());
-            if (valorsito.length() > 24 && !estado.getText().equals("X")) {
+            if (valorsito.length() == 32 && !estado.getText().equals("X")) {
                 String[] c = valorsito.split(":");
-                //System.out.println("cuantos hubo:" +c.length);
-                String x = c[c.length - 3].substring(0, c[c.length - 3].length() - 1);
-                String y = c[c.length - 2].substring(0, c[c.length - 2].length() - 1);
-                String z = c[c.length - 1].substring(0, c[c.length - 1].length());
-                label1.setText(x);
-                label2.setText(y);
-                label3.setText(z);
-                //linked.add(md);
-//            label1.setText(valorsito.substring( valorsito.length()-6,valorsito.length()));
-//            label2.setText(valorsito.substring( valorsito.length()-16,valorsito.length()-10));
-//            label3.setText(valorsito.substring( valorsito.length()-22,valorsito.length()-17));
-                //cont.setText(String.valueOf(Double.parseDouble(cont.getText()) + 0.1));
+                System.out.println(valorsito);
+                //01A+0006.789
+                //1:+004.825
+                //JOptionPan e.showMessageDialog(cont,valorsito);
+                //JOptionPane.showMessageDialog(cont, valorsito);
+
+                if (valorsito.charAt(0) == '1') {
+                    label1.setText(valorsito.substring(2, 10));
+                }
+                if (valorsito.charAt(0) == '2') {
+                    label2.setText(valorsito.substring(2, 10));
+                }
+                if (valorsito.charAt(0) == '3') {
+                    label3.setText(valorsito.substring(2, 10));
+                }
+                if (valorsito.charAt(11) == '1') {
+                    label1.setText(valorsito.substring(13, 21));
+                }
+                if (valorsito.charAt(11) == '2') {
+                    label2.setText(valorsito.substring(13, 21));
+                }
+                if (valorsito.charAt(11) == '3') {
+                    label3.setText(valorsito.substring(13, 21));
+                }
+                if (valorsito.charAt(22) == '1') {
+                    label1.setText(valorsito.substring(24, 32));
+                }
+                if (valorsito.charAt(22) == '2') {
+                    label2.setText(valorsito.substring(24, 32));
+                }
+                if (valorsito.charAt(22) == '3') {
+                    label3.setText(valorsito.substring(24, 32));
+                }
+                // JOptionPane.showMessageDialog(null, valorsito);
+                valorsito = "";
+
             }
-            System.out.println("Contador:" + contador);
+            //System.out.println("Contador:" + contador);
             if (estado.getText().equals("X")) {
-                contadorPulsos=0;
+                contadorPulsos = 0;
             }
-            if (contador == 33 ){
-                contador=0;
-                if(!estado.getText().equals("X")) {
-                
-                contadorPulsos++;
-                Medicion md = new Medicion(contadorPulsos,Double.parseDouble(graf.getJ1().getText()), Double.parseDouble(graf.getJ2().getText()),
-                        Double.parseDouble(graf.getJ3().getText()));
-                this.linked.add(md);
-                graf.graficar();
+            if (contador == 33) {
                 contador = 0;
-                
-                } 
+                if (!estado.getText().equals("X")) {
+                    contadorPulsos++;
+                    Medicion md = new Medicion(contadorPulsos, Double.parseDouble(graf.getJ1().getText()), Double.parseDouble(graf.getJ2().getText()),
+                            Double.parseDouble(graf.getJ3().getText()));
+                    this.linked.add(md);
+                    addToTable(contadorPulsos, md, 1.0, 2.0);
+                    graf.graficar();
+                    grafIzq.graficar();
+                    grafCentro.graficar();
+                    grafDer.graficar();
+                    contador = 0;
+                    valorsito = "";
+                    valor = "";
+
+                }
             }
 
-            valorsito = "";
         }
-        close();
+
+    }
+
+    public void addToTable(int contadorPulsos, Medicion md, Double arriba, Double abajo) {
+        if (tc.getColumnName(this.contadorPulsos).equals(String.valueOf(contadorPulsos))) {
+
+            tc.setValueAt(md.getDerecha(), 2, contadorPulsos);
+            tc.setValueAt(md.getCentro(), 1, contadorPulsos);
+            tc.setValueAt(md.getIzquierda(), 0, contadorPulsos);
+
+        } else {
+            tc.addColumn("" + contadorPulsos, md.getDatos());
+        }
+        jtable.setAutoscrolls(true);
+        TableColumn col = jtable.getColumnModel().getColumn(contadorPulsos);
+        col.setCellRenderer(new CustomRenderer());
+
     }
 
     public void close() {
         bandera = false;
         serialport.close();
     }
+
+    public void restarContador(int valor) {
+        this.setContadorPulsos(this.getContadorPulsos() - valor);
+    }
+
+    public int getContadorPulsos() {
+        return contadorPulsos;
+    }
+
+    public void setContadorPulsos(int contadorPulsos) {
+        this.contadorPulsos = contadorPulsos;
+    }
+
 }

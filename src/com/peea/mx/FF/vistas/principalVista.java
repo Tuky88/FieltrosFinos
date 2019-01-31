@@ -11,6 +11,8 @@ import com.peea.mx.FF.controladores.controladorMedir;
 import com.peea.mx.FF.iFrame.configuracioniFrame;
 import com.peea.mx.FF.iFrame.informacioniFrame;
 import com.peea.mx.FF.iFrame.medicioniFrame;
+import com.peea.mx.FF.iFrame.tablasSeparadasiFrame;
+import com.peea.mx.FF.iFrame.verDatosiFrame;
 import java.awt.Dimension;
 import static java.awt.Frame.MAXIMIZED_BOTH;
 import javax.swing.ImageIcon;
@@ -24,12 +26,17 @@ public class principalVista extends javax.swing.JFrame {
     public medicioniFrame mi;
     public configuracioniFrame ci;
     public informacioniFrame ii;
+    public verDatosiFrame vdi;
+    public tablasSeparadasiFrame tsi;
 
-    public principalVista(String com) {
+    public principalVista(String com, int vel) {
         initComponents();
-        mi = new medicioniFrame(com);
+
         ci = new configuracioniFrame();
-        ii= new informacioniFrame();
+        ii = new informacioniFrame();
+        vdi = new verDatosiFrame();
+        tsi = new tablasSeparadasiFrame();
+        mi = new medicioniFrame(com, vel, vdi.tc, vdi.tablaRes,tsi);
 
         setMinimumSize(new Dimension(700, 400).getSize());
         setExtendedState(MAXIMIZED_BOTH);
@@ -37,12 +44,13 @@ public class principalVista extends javax.swing.JFrame {
         setIconImage(new ImageIcon(getClass().getResource("/com/peea/mx/FF/imagenes/icono.png")).getImage());
         //this.jDesktopPane1.setBorder(new ImagenFondo("icono.png"));
         this.jDesktopPane1.add(mi);
-        controladorMedir cmi=new controladorMedir(mi);
-        controladorConfig cc=new controladorConfig(ci);
-        controladorInformacion cii=new controladorInformacion(ii);
+        controladorMedir cmi = new controladorMedir(mi,tsi);
+        controladorConfig cc = new controladorConfig(ci);
+        controladorInformacion cii = new controladorInformacion(ii);
         this.jDesktopPane1.add(ci);
         this.jDesktopPane1.add(ii);
-        
+        this.jDesktopPane1.add(vdi);
+        this.jDesktopPane1.add(tsi);
 
     }
 
@@ -85,6 +93,9 @@ public class principalVista extends javax.swing.JFrame {
         menuMedicion = new javax.swing.JMenu();
         menuIAbrir = new javax.swing.JMenuItem();
         jSeparator1 = new javax.swing.JPopupMenu.Separator();
+        menuHerramientas = new javax.swing.JMenu();
+        submenuTabla = new javax.swing.JMenuItem();
+        submenuGraficaInd = new javax.swing.JMenuItem();
         menuConfig = new javax.swing.JMenu();
         menuIInfo = new javax.swing.JMenuItem();
         menuAcerca = new javax.swing.JMenu();
@@ -110,9 +121,9 @@ public class principalVista extends javax.swing.JFrame {
         jDesktopPane1Layout.setVerticalGroup(
             jDesktopPane1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jDesktopPane1Layout.createSequentialGroup()
-                .addContainerGap(270, Short.MAX_VALUE)
+                .addContainerGap(193, Short.MAX_VALUE)
                 .addComponent(jLabel1)
-                .addContainerGap(271, Short.MAX_VALUE))
+                .addContainerGap(272, Short.MAX_VALUE))
         );
 
         menuMedicion.setText("Medición");
@@ -122,6 +133,16 @@ public class principalVista extends javax.swing.JFrame {
         menuMedicion.add(jSeparator1);
 
         barraMenu.add(menuMedicion);
+
+        menuHerramientas.setText("Herramientas");
+
+        submenuTabla.setText("Tabla Resultados");
+        menuHerramientas.add(submenuTabla);
+
+        submenuGraficaInd.setText("Graficas individuales");
+        menuHerramientas.add(submenuGraficaInd);
+
+        barraMenu.add(menuHerramientas);
 
         menuConfig.setText("Configuración");
 
@@ -161,10 +182,13 @@ public class principalVista extends javax.swing.JFrame {
     public javax.swing.JPopupMenu.Separator jSeparator1;
     public javax.swing.JMenu menuAcerca;
     public javax.swing.JMenu menuConfig;
+    public javax.swing.JMenu menuHerramientas;
     public javax.swing.JMenuItem menuIAbrir;
     public javax.swing.JMenuItem menuIInfo;
     public javax.swing.JMenuItem menuInfor;
     public javax.swing.JMenu menuMedicion;
+    public javax.swing.JMenuItem submenuGraficaInd;
+    public javax.swing.JMenuItem submenuTabla;
     // End of variables declaration//GEN-END:variables
     public static void main(String[] args) {
 

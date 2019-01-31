@@ -8,6 +8,9 @@ package com.peea.mx.FF.controladores;
 import com.peea.mx.FF.vistas.principalVista;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.beans.PropertyVetoException;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javax.swing.JInternalFrame;
 import javax.swing.JOptionPane;
 
@@ -22,8 +25,10 @@ public class controladorPrincipal {
     public controladorPrincipal(principalVista pv) {
         this.pv = pv;
         this.pv.menuIAbrir.addActionListener(new Abrir(this.pv.mi));
+        this.pv.submenuGraficaInd.addActionListener(new Abrir(this.pv.tsi));
         this.pv.menuIInfo.addActionListener(new Abrir(this.pv.ci));
         this.pv.menuInfor.addActionListener(new Abrir(this.pv.ii));
+        this.pv.submenuTabla.addActionListener(new Abrir(this.pv.vdi));
         this.pv.ci.btnGuardar.addActionListener(new Cargar());
         this.pv.ci.btnGuardar.doClick();
        // this.pv.mi.btnFinalizarMed.addActionListener(new FinalizarMed());
@@ -42,6 +47,15 @@ public class controladorPrincipal {
         @Override
         public void actionPerformed(ActionEvent e) {
             jf.show();
+            jf.setMaximizable(true);
+            if(jf.getTitle().equals("PRINCIPAL"))
+            {
+                try {
+                    jf.setMaximum(true);
+                } catch (PropertyVetoException ex) {
+                    Logger.getLogger(controladorPrincipal.class.getName()).log(Level.SEVERE, null, ex);
+                }
+            }
         }
     }
 
@@ -59,6 +73,14 @@ public class controladorPrincipal {
                 pv.ci.lblMed.setText("MM");
             }
             pv.mi.lblMed.setText(pv.ci.lblMed.getText());
+            if(pv.ci.chkImprimir.isSelected())
+            {
+                pv.mi.chkImprimir.setSelected(true);
+            }
+            else
+            {
+                pv.mi.chkImprimir.setSelected(false);
+            }
         }
 
     }
