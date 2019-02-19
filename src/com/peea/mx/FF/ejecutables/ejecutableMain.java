@@ -18,7 +18,7 @@ public class ejecutableMain {
      * @param args the command line arguments
      */
     public static void main(String[] args) {
-        principalVista pv=new principalVista("COM9",9600);
+        principalVista pv=new principalVista("COM4");
         pv.show();
         controladorPrincipal cp=new controladorPrincipal(pv);
     }

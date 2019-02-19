@@ -5,14 +5,11 @@
  */
 package com.peea.mx.FF.modelos;
 
-import java.util.Arrays;
-
 /**
  *
  * @author Sistemas
  */
 public class Medicion {
-
     private int indice;
     private double izquierda;
     private double centro;
@@ -32,6 +29,8 @@ public class Medicion {
     public void setIndice(int indice) {
         this.indice = indice;
     }
+
+
 
     public double getIzquierda() {
         return izquierda;
@@ -57,16 +56,11 @@ public class Medicion {
         this.derecha = derecha;
     }
 
-    public String[] getDatos() {
-        String[] s = {Double.toString(izquierda), Double.toString(centro), Double.toString(derecha)};
-
-        System.out.println(Arrays.toString(s));
-        return s;
-    }
-
     @Override
     public String toString() {
         return "Medicion{" + "izquierda=" + izquierda + ", centro=" + centro + ", derecha=" + derecha + '}';
     }
 
+
+  
 }

@@ -51,11 +51,11 @@ public class graficadorLineal  {
     public graficadorLineal(String[] indices, JPanel panelin, JTextField j1, JTextField j2, JTextField j3, JTextField j4, JTextField j5, JTextField j6) {
         this.values = indices;
         this.grafica = panelin;
-        XYSeries xys1=new XYSeries("Izquierda",false,false);
-        XYSeries xys2=new XYSeries("Centro",false,false);
-        XYSeries xys3=new XYSeries("Derecha",false,false);
-        XYSeries xys4=new XYSeries("POSITIVO (+)",false,false);
-        XYSeries xys5=new XYSeries("NEGATIVO (-)",false,false);
+        XYSeries xys1=new XYSeries("Izquierda");
+        XYSeries xys2=new XYSeries("Centro");
+        XYSeries xys3=new XYSeries("Derecha");
+        XYSeries xys4=new XYSeries("POSITIVO (+)");
+        XYSeries xys5=new XYSeries("NEGATIVO (-)");
         
          seriesXY = new XYSeriesCollection();
         seriesXY.addSeries(xys1);
@@ -92,7 +92,7 @@ public class graficadorLineal  {
         // change the auto tick unit selection to integer units only...
         NumberAxis rangeAxis = (NumberAxis) plot.getRangeAxis();
         rangeAxis.setStandardTickUnits(NumberAxis.createIntegerTickUnits());
-        chart.setTitle("MESA 2");
+        chart.setTitle("MESA 1");
         chart.setBackgroundPaint(COLOR_GRAFICA);
         chart.setBorderPaint(COLOR_GRAFICA);
         
@@ -152,19 +152,49 @@ public class graficadorLineal  {
             System.out.println(j1.getText() + "//" + j2.getText() + "//" + j3.getText() + "//" + j5.getText() + "//" + j6.getText());
             
             XYSeries xymodi=seriesXY.getSeries(0);
-            
-            xymodi.addOrUpdate(Double.parseDouble(this.j4.getText()),Double.parseDouble(this.j1.getText()));
+            xymodi.add(Double.parseDouble(this.j4.getText()),Double.parseDouble(this.j1.getText()));
             xymodi=seriesXY.getSeries(1);
-            xymodi.addOrUpdate(Double.parseDouble(this.j4.getText()),Double.parseDouble(this.j2.getText()));
+            xymodi.add(Double.parseDouble(this.j4.getText()),Double.parseDouble(this.j2.getText()));
             xymodi=seriesXY.getSeries(2);
-            xymodi.addOrUpdate(Double.parseDouble(this.j4.getText()),Double.parseDouble(this.j3.getText()));
+            xymodi.add(Double.parseDouble(this.j4.getText()),Double.parseDouble(this.j3.getText()));
             xymodi=seriesXY.getSeries(3);
-            xymodi.addOrUpdate(Double.parseDouble(this.j4.getText()),Double.parseDouble(this.j5.getText()));
+            xymodi.add(Double.parseDouble(this.j4.getText()),Double.parseDouble(this.j5.getText()));
             xymodi=seriesXY.getSeries(4);
-            xymodi.addOrUpdate(Double.parseDouble(this.j4.getText()),Double.parseDouble(this.j6.getText()));
-            
+            xymodi.add(Double.parseDouble(this.j4.getText()),Double.parseDouble(this.j6.getText()));
             //this.j4.setText(String.valueOf(Double.parseDouble(this.j4.getText()) + 1));
 
         }
-    }}
-    
+    }
+
+
+
+//    @Override
+//    public void run() {
+//
+//        while (true) {
+//            synchronized (this) {
+//
+//                try {
+//                    wait(2000);
+//                    if (!this.j1.getText().isEmpty() && !this.j2.getText().isEmpty() && !this.j3.getText().isEmpty() && !this.j5.getText().isEmpty()
+//                            && !this.j6.getText().isEmpty()) {
+//                        this.j4.setText(String.valueOf(Double.parseDouble(this.j4.getText()) + 1));
+//                        System.out.println(j1.getText() + "//" + j2.getText() + "//" + j3.getText() + "//" + j5.getText() + "//" + j6.getText());
+//                        dataset.addValue(Double.parseDouble(this.j1.getText()), "IZQUIERDA", this.j4.getText());
+//                        dataset.addValue(Double.parseDouble(this.j2.getText()), "CENTRO", this.j4.getText());
+//                        dataset.addValue(Double.parseDouble(this.j3.getText()), "DERECHA", this.j4.getText());
+//                        dataset.addValue(Double.parseDouble(this.j5.getText()), "GROSOR(+)", this.j4.getText());
+//                        dataset.addValue(Double.parseDouble(this.j6.getText()), "GROSOR(-)", this.j4.getText());
+//                        //this.j4.setText(String.valueOf(Double.parseDouble(this.j4.getText()) + 1));
+//
+//                    } else {
+//                        System.out.println("f:" + j1.getText() + "//" + j2.getText() + "//" + j3.getText() + "//" + j5.getText() + "//" + j6.getText());
+//                    }
+//                } catch (InterruptedException ex) {
+//                    Logger.getLogger(graficadorLineal.class.getName()).log(Level.SEVERE, null, ex);
+//                }
+//            }
+//        }
+//
+//    }
+}

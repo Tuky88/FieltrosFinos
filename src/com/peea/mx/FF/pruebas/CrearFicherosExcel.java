@@ -20,10 +20,8 @@ import java.text.DecimalFormat;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import org.apache.poi.openxml4j.exceptions.InvalidFormatException;
-import org.apache.poi.ss.usermodel.CellStyle;
 import org.apache.poi.ss.usermodel.CellType;
 import org.apache.poi.ss.usermodel.FormulaEvaluator;
-import org.apache.poi.ss.usermodel.HorizontalAlignment;
 
 import org.apache.poi.xssf.usermodel.XSSFCell;
 import org.apache.poi.xssf.usermodel.XSSFRow;
@@ -103,7 +101,7 @@ public class CrearFicherosExcel {
         } else {
             XSSFCell cell = row.createCell(y);
             cell.setCellType(CellType.STRING);
-
+            
             cell.setCellValue(valorsito);
         }
 
@@ -146,9 +144,6 @@ public class CrearFicherosExcel {
                     } else if (m.getIzquierda() < inferior) {
                         cell.setCellValue("(-)");
                     }
-                    CellStyle cs = cell.getCellStyle();
-                    cs.setAlignment(HorizontalAlignment.RIGHT);
-                    cell.setCellStyle(cs);
                     break;
                 case 3:
                     if (isStatus()) {
@@ -225,25 +220,14 @@ public class CrearFicherosExcel {
     }
 
     public void cargarArchivo() {
-
+        
         file = new File(rutaArchivo);
         try (FileOutputStream fileOuS = new FileOutputStream(file)) {
             if (file.exists()) {// si el archivo existe se elimina
 //                file.delete();
 //                System.out.println("Archivo eliminado");
             }
-            hoja1.lockFormatCells(true);
-            hoja1.lockDeleteColumns(true);
-            hoja1.lockDeleteRows(true);
-            hoja1.lockFormatCells(true);
-            hoja1.lockFormatColumns(true);
-            hoja1.lockFormatRows(true);
-            hoja1.lockInsertColumns(true);
-            hoja1.lockInsertRows(true);
-            hoja1.enableLocking();
-            libro.lockStructure();
             libro.write(fileOuS);
-
             fileOuS.flush();
             fileOuS.close();
             System.out.println("Archivo Creado");
@@ -254,24 +238,18 @@ public class CrearFicherosExcel {
             e.printStackTrace();
         }
     }
-
-    public void imprimirArchivo() {
-        java.awt.Desktop desktop = java.awt.Desktop.getDesktop();
-        if (desktop.isSupported(Desktop.Action.PRINT)) {
-            try {
-                desktop.print(file);
-            } catch (Exception e) {
-                System.out.print("El sistema no permite imprimir usando la clase Desktop");
-                e.printStackTrace();
-            }
-        } else {
-            System.out.print("El sistema no permite imprimir usando la clase Desktop");
-        }
-    }
-
-    public static void main(String[] args) {
-        CrearFicherosExcel cfe = new CrearFicherosExcel("pueba" + ".xlsx", "C:\\FieltrosFinos\\src\\com\\peea\\mx\\FF\\Reportes\\",
-                "Hoja1", "C:\\FieltrosFinos\\src\\com\\peea\\mx\\FF\\Archivos\\rf.xlsx");
-        cfe.cargarArchivo();
+    public void imprimirArchivo()
+    {
+        java.awt.Desktop desktop = java.awt.Desktop.getDesktop(); 
+if (desktop.isSupported(Desktop.Action.PRINT)){ 
+try {
+desktop.print(file);
+} catch (Exception e){
+System.out.print("El sistema no permite imprimir usando la clase Desktop"); 
+e.printStackTrace();
+}
+}else{ 
+System.out.print("El sistema no permite imprimir usando la clase Desktop"); 
+} 
     }
 }
