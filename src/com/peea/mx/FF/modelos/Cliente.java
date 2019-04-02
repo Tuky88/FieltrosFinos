@@ -10,19 +10,27 @@ package com.peea.mx.FF.modelos;
  * @author Sistemas
  */
 public class Cliente {
+
     private String Nombre;
     private String Direccion;
     private String Telefono;
     private int PrefMed;
+    private int PrefPrint;
 
-    public Cliente(String Nombre, String Direccion, String Telefono, String PrefMed) {
+    public Cliente(String Nombre, String Direccion, String Telefono, String PrefMed, String PrefPrint) {
         this.Nombre = Nombre;
         this.Direccion = Direccion;
         this.Telefono = Telefono;
-        if(PrefMed.equals("1"))
+        if (PrefMed.equals("1")) {
             this.PrefMed = 1;
-        else
-            this.PrefMed= 2;
+        } else {
+            this.PrefMed = 2;
+        }
+        if (PrefPrint .equals("1")) {
+            this.PrefPrint = 1;
+        } else {
+            this.PrefPrint = 2;
+        }
     }
 
     public String getNombre() {
@@ -59,7 +67,16 @@ public class Cliente {
 
     @Override
     public String toString() {
-        return "Cliente{" + "Nombre=" + Nombre + ", Direccion=" + Direccion + ", Telefono=" + Telefono + ", PrefMed=" + PrefMed + '}';
+        return "Cliente{" + "Nombre=" + Nombre + ", Direccion=" + Direccion + ", Telefono=" + Telefono + ", PrefMed=" + PrefMed + ", PrefPrint=" + PrefPrint + '}';
     }
-    
+
+
+    public int getPrefPrint() {
+        return PrefPrint;
+    }
+
+    public void setPrefPrint(int PrefPrint) {
+        this.PrefPrint = PrefPrint;
+    }
+
 }

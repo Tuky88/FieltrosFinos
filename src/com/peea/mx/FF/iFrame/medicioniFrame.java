@@ -190,6 +190,7 @@ public class medicioniFrame extends javax.swing.JInternalFrame {
         jLabel1 = new javax.swing.JLabel();
         txtRecorrer = new javax.swing.JTextField();
         btnRetroceder = new javax.swing.JButton();
+        btnQr = new javax.swing.JButton();
         grafica = new javax.swing.JPanel();
 
         setClosable(true);
@@ -516,6 +517,9 @@ public class medicioniFrame extends javax.swing.JInternalFrame {
             }
         });
 
+        btnQr.setFont(new java.awt.Font("Tahoma", 1, 18)); // NOI18N
+        btnQr.setIcon(new javax.swing.ImageIcon(getClass().getResource("/com/peea/mx/FF/iconos/qr-code.png"))); // NOI18N
+
         javax.swing.GroupLayout jPanel3Layout = new javax.swing.GroupLayout(jPanel3);
         jPanel3.setLayout(jPanel3Layout);
         jPanel3Layout.setHorizontalGroup(
@@ -625,7 +629,9 @@ public class medicioniFrame extends javax.swing.JInternalFrame {
                                     .addComponent(txtDensidad, javax.swing.GroupLayout.PREFERRED_SIZE, 124, javax.swing.GroupLayout.PREFERRED_SIZE)
                                     .addComponent(txtAnchoM, javax.swing.GroupLayout.PREFERRED_SIZE, 124, javax.swing.GroupLayout.PREFERRED_SIZE))
                                 .addGap(18, 18, 18)
-                                .addComponent(btnCalcularDen, javax.swing.GroupLayout.PREFERRED_SIZE, 59, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                    .addComponent(btnCalcularDen, javax.swing.GroupLayout.PREFERRED_SIZE, 59, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                    .addComponent(btnQr, javax.swing.GroupLayout.PREFERRED_SIZE, 59, javax.swing.GroupLayout.PREFERRED_SIZE))
                                 .addGap(18, 18, 18)
                                 .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
                                     .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
@@ -705,10 +711,11 @@ public class medicioniFrame extends javax.swing.JInternalFrame {
                                                     .addComponent(txtMetrosM, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                                                     .addComponent(jLabel23)))
                                             .addComponent(btnCalcularDen, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, 23, javax.swing.GroupLayout.PREFERRED_SIZE))
-                                        .addGap(12, 12, 12)
+                                        .addGap(6, 6, 6)
                                         .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                                             .addComponent(txtAnchoM, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                            .addComponent(jLabel24)))
+                                            .addComponent(jLabel24)
+                                            .addComponent(btnQr, javax.swing.GroupLayout.PREFERRED_SIZE, 23, javax.swing.GroupLayout.PREFERRED_SIZE)))
                                     .addGroup(jPanel3Layout.createSequentialGroup()
                                         .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                                             .addComponent(txtCliente, javax.swing.GroupLayout.PREFERRED_SIZE, 19, javax.swing.GroupLayout.PREFERRED_SIZE)
@@ -800,7 +807,7 @@ public class medicioniFrame extends javax.swing.JInternalFrame {
                     .addComponent(jPanel3, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addGap(0, 0, Short.MAX_VALUE))
             .addGroup(jPanel1Layout.createSequentialGroup()
-                .addComponent(grafica, javax.swing.GroupLayout.DEFAULT_SIZE, 986, Short.MAX_VALUE)
+                .addComponent(grafica, javax.swing.GroupLayout.DEFAULT_SIZE, 1266, Short.MAX_VALUE)
                 .addContainerGap())
         );
         jPanel1Layout.setVerticalGroup(
@@ -915,6 +922,7 @@ public class medicioniFrame extends javax.swing.JInternalFrame {
     public javax.swing.JButton btnFinalizarMed;
     public javax.swing.JButton btnGenerarRepo;
     public javax.swing.JButton btnIniciarMed;
+    public javax.swing.JButton btnQr;
     public javax.swing.JButton btnRetroceder;
     public javax.swing.JCheckBox chkAPlanchado;
     public javax.swing.JCheckBox chkDPlanchado;

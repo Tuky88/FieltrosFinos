@@ -38,25 +38,28 @@ public class configuracioniFrame extends javax.swing.JInternalFrame {
     private void initComponents() {
 
         buttonGroup1 = new javax.swing.ButtonGroup();
+        jTabbedPane1 = new javax.swing.JTabbedPane();
+        jPanel1 = new javax.swing.JPanel();
+        btnReset = new javax.swing.JButton();
         jLabel1 = new javax.swing.JLabel();
+        txtNumMesa = new javax.swing.JTextField();
         jLabel2 = new javax.swing.JLabel();
+        jLabel5 = new javax.swing.JLabel();
         jLabel3 = new javax.swing.JLabel();
+        lblMed = new javax.swing.JLabel();
         txtEmpresa = new javax.swing.JTextField();
+        chkImprimir = new javax.swing.JCheckBox();
         txtDir = new javax.swing.JTextField();
+        jLabel6 = new javax.swing.JLabel();
         txtTel = new javax.swing.JTextField();
+        comboCliente = new javax.swing.JComboBox<>();
         jLabel4 = new javax.swing.JLabel();
+        btnGuardarCliente = new javax.swing.JButton();
         rbMM = new javax.swing.JRadioButton();
+        btnEliminarCliente = new javax.swing.JButton();
         rbIN = new javax.swing.JRadioButton();
         btnGuardar = new javax.swing.JButton();
-        btnReset = new javax.swing.JButton();
-        txtNumMesa = new javax.swing.JTextField();
-        jLabel5 = new javax.swing.JLabel();
-        lblMed = new javax.swing.JLabel();
-        chkImprimir = new javax.swing.JCheckBox();
-        jLabel6 = new javax.swing.JLabel();
-        comboCliente = new javax.swing.JComboBox<>();
-        btnGuardarCliente = new javax.swing.JButton();
-        btnEliminarCliente = new javax.swing.JButton();
+        jPanel2 = new javax.swing.JPanel();
 
         setClosable(true);
         setDefaultCloseOperation(javax.swing.WindowConstants.HIDE_ON_CLOSE);
@@ -64,19 +67,35 @@ public class configuracioniFrame extends javax.swing.JInternalFrame {
         setTitle("CONFIGURACION");
         setFrameIcon(new javax.swing.ImageIcon(getClass().getResource("/com/peea/mx/FF/imagenes/icono_opt.png"))); // NOI18N
 
+        btnReset.setText("Restablecer");
+
         jLabel1.setText("Empresa:");
 
+        txtNumMesa.setText("2");
+
         jLabel2.setText("Dirección:");
+
+        jLabel5.setText("Num. Mesa:");
 
         jLabel3.setText("Teléfono:");
 
         txtEmpresa.setText("FIELTROS FINOS S.A. de C.V.");
 
+        chkImprimir.setText("Imprimir");
+
         txtDir.setText("Av. 20 de noviembre 234 Cuautitlán, Edo. Mex.");
+
+        jLabel6.setText("CLIENTE:");
 
         txtTel.setText("Tel:2620-7660 Fax: 2620-7676");
 
+        comboCliente.setMaximumRowCount(10);
+
         jLabel4.setText("Unidad de Medida:");
+
+        btnGuardarCliente.setBackground(javax.swing.UIManager.getDefaults().getColor("Button.darkShadow"));
+        btnGuardarCliente.setIcon(new javax.swing.ImageIcon(getClass().getResource("/com/peea/mx/FF/iconos/checked (3).png"))); // NOI18N
+        btnGuardarCliente.setBorder(null);
 
         buttonGroup1.add(rbMM);
         rbMM.setSelected(true);
@@ -86,6 +105,10 @@ public class configuracioniFrame extends javax.swing.JInternalFrame {
                 rbMMActionPerformed(evt);
             }
         });
+
+        btnEliminarCliente.setBackground(javax.swing.UIManager.getDefaults().getColor("Button.darkShadow"));
+        btnEliminarCliente.setIcon(new javax.swing.ImageIcon(getClass().getResource("/com/peea/mx/FF/iconos/unchecked.png"))); // NOI18N
+        btnEliminarCliente.setBorder(null);
 
         buttonGroup1.add(rbIN);
         rbIN.setText("INCH");
@@ -97,49 +120,29 @@ public class configuracioniFrame extends javax.swing.JInternalFrame {
 
         btnGuardar.setText("Guardar");
 
-        btnReset.setText("Restablecer");
-
-        txtNumMesa.setText("2");
-
-        jLabel5.setText("Num. Mesa:");
-
-        chkImprimir.setText("Imprimir");
-
-        jLabel6.setText("CLIENTE:");
-
-        comboCliente.setMaximumRowCount(10);
-
-        btnGuardarCliente.setBackground(javax.swing.UIManager.getDefaults().getColor("Button.darkShadow"));
-        btnGuardarCliente.setIcon(new javax.swing.ImageIcon(getClass().getResource("/com/peea/mx/FF/iconos/checked (3).png"))); // NOI18N
-        btnGuardarCliente.setBorder(null);
-
-        btnEliminarCliente.setBackground(javax.swing.UIManager.getDefaults().getColor("Button.darkShadow"));
-        btnEliminarCliente.setIcon(new javax.swing.ImageIcon(getClass().getResource("/com/peea/mx/FF/iconos/unchecked.png"))); // NOI18N
-        btnEliminarCliente.setBorder(null);
-
-        javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
-        getContentPane().setLayout(layout);
-        layout.setHorizontalGroup(
-            layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(layout.createSequentialGroup()
+        javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
+        jPanel1.setLayout(jPanel1Layout);
+        jPanel1Layout.setHorizontalGroup(
+            jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel1Layout.createSequentialGroup()
                 .addContainerGap()
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addComponent(jLabel4)
                     .addComponent(lblMed, javax.swing.GroupLayout.PREFERRED_SIZE, 57, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addGroup(layout.createSequentialGroup()
+                    .addGroup(jPanel1Layout.createSequentialGroup()
                         .addGap(7, 7, 7)
-                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                        .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
                             .addComponent(jLabel5)
                             .addComponent(jLabel3)
                             .addComponent(jLabel2)
-                            .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                                 .addComponent(jLabel6)
                                 .addComponent(jLabel1)))))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(layout.createSequentialGroup()
-                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                            .addGroup(layout.createSequentialGroup()
+                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(jPanel1Layout.createSequentialGroup()
+                        .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                            .addGroup(jPanel1Layout.createSequentialGroup()
                                 .addGap(49, 49, 49)
                                 .addComponent(rbMM)
                                 .addGap(45, 45, 45)
@@ -147,64 +150,89 @@ public class configuracioniFrame extends javax.swing.JInternalFrame {
                             .addComponent(txtEmpresa)
                             .addComponent(txtDir)
                             .addComponent(txtTel)
-                            .addGroup(layout.createSequentialGroup()
+                            .addGroup(jPanel1Layout.createSequentialGroup()
                                 .addComponent(txtNumMesa, javax.swing.GroupLayout.PREFERRED_SIZE, 161, javax.swing.GroupLayout.PREFERRED_SIZE)
                                 .addGap(99, 99, 99)
                                 .addComponent(chkImprimir))
-                            .addComponent(comboCliente, 0, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                            .addComponent(comboCliente, javax.swing.GroupLayout.PREFERRED_SIZE, 321, javax.swing.GroupLayout.PREFERRED_SIZE))
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(btnGuardarCliente, javax.swing.GroupLayout.DEFAULT_SIZE, 64, Short.MAX_VALUE)
-                            .addComponent(btnEliminarCliente, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, 64, Short.MAX_VALUE)))
-                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
+                        .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(btnGuardarCliente, javax.swing.GroupLayout.DEFAULT_SIZE, 59, Short.MAX_VALUE)
+                            .addComponent(btnEliminarCliente, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, 59, Short.MAX_VALUE)))
+                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel1Layout.createSequentialGroup()
                         .addComponent(btnReset)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addComponent(btnGuardar)))
                 .addContainerGap())
         );
-        layout.setVerticalGroup(
-            layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
-                .addContainerGap()
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+        jPanel1Layout.setVerticalGroup(
+            jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(jPanel1Layout.createSequentialGroup()
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
                     .addComponent(btnGuardarCliente)
-                    .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                         .addComponent(comboCliente, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addComponent(jLabel6)))
                 .addGap(18, 18, 18)
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addComponent(jLabel1)
                     .addComponent(txtEmpresa, javax.swing.GroupLayout.PREFERRED_SIZE, 31, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(btnEliminarCliente))
                 .addGap(20, 20, 20)
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel2)
                     .addComponent(txtDir, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addGap(20, 20, 20)
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addComponent(jLabel3)
                     .addComponent(txtTel, javax.swing.GroupLayout.PREFERRED_SIZE, 31, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addGap(25, 25, 25)
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(txtNumMesa, javax.swing.GroupLayout.PREFERRED_SIZE, 31, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(jLabel5)
                     .addComponent(chkImprimir))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                    .addGroup(layout.createSequentialGroup()
-                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                    .addGroup(jPanel1Layout.createSequentialGroup()
+                        .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                             .addComponent(rbMM)
                             .addComponent(jLabel4))
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addComponent(lblMed, javax.swing.GroupLayout.PREFERRED_SIZE, 25, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addGap(4, 4, 4))
-                    .addGroup(layout.createSequentialGroup()
+                    .addGroup(jPanel1Layout.createSequentialGroup()
                         .addComponent(rbIN)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                        .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                             .addComponent(btnGuardar)
-                            .addComponent(btnReset))))
-                .addContainerGap())
+                            .addComponent(btnReset)))))
+        );
+
+        jTabbedPane1.addTab("General", jPanel1);
+
+        javax.swing.GroupLayout jPanel2Layout = new javax.swing.GroupLayout(jPanel2);
+        jPanel2.setLayout(jPanel2Layout);
+        jPanel2Layout.setHorizontalGroup(
+            jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGap(0, 510, Short.MAX_VALUE)
+        );
+        jPanel2Layout.setVerticalGroup(
+            jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGap(0, 304, Short.MAX_VALUE)
+        );
+
+        jTabbedPane1.addTab("Medición", jPanel2);
+
+        javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
+        getContentPane().setLayout(layout);
+        layout.setHorizontalGroup(
+            layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addComponent(jTabbedPane1)
+        );
+        layout.setVerticalGroup(
+            layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addComponent(jTabbedPane1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
         );
 
         pack();
@@ -233,6 +261,9 @@ public class configuracioniFrame extends javax.swing.JInternalFrame {
     private javax.swing.JLabel jLabel4;
     private javax.swing.JLabel jLabel5;
     private javax.swing.JLabel jLabel6;
+    private javax.swing.JPanel jPanel1;
+    private javax.swing.JPanel jPanel2;
+    private javax.swing.JTabbedPane jTabbedPane1;
     public javax.swing.JLabel lblMed;
     public javax.swing.JRadioButton rbIN;
     public javax.swing.JRadioButton rbMM;

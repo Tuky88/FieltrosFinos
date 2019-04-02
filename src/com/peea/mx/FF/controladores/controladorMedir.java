@@ -5,6 +5,7 @@
  */
 package com.peea.mx.FF.controladores;
 
+import com.barcodelib.barcode.QRCode;
 import com.peea.mx.FF.Serial.LecturaSer;
 import com.peea.mx.FF.iFrame.medicioniFrame;
 import com.peea.mx.FF.iFrame.tablasSeparadasiFrame;
@@ -71,6 +72,7 @@ public class controladorMedir {
         this.mi.txtToleranciaNegIn.addKeyListener(new Convertir(mi.txtToleranciaNegIn, mi.txtToleranciaNegMM, 2));
         this.mi.btnGenerarRepo.addActionListener(new GenerarRepo());
         this.mi.btnRetroceder.addActionListener(new Retroceder());
+        this.mi.btnQr.addActionListener(new generarQR());
 //this.mi.txtObtenerMed.addActionListener(new Obtener());
 
         mi.ls = new LecturaSer(conjunto, mi.grafica, mi.txtMedidaIzq, mi.txtMedidaCentro, mi.txtMedidaDerecha,
@@ -82,6 +84,49 @@ public class controladorMedir {
         mi.btnGenerarRepo.setEnabled(false);
 
         this.correrHilo();
+    }
+
+    private class generarQR implements ActionListener {
+
+        public generarQR() {
+        }
+
+        @Override
+        public void actionPerformed(ActionEvent ae) {
+            try {
+                QRCode qr = new QRCode();
+                qr.setData(mi.txtEspesorMM.getText() + ","
+                        + mi.txtToleranciaPosMM.getText() + ","
+                        + mi.txtToleranciaNegMM.getText() + ","
+                        + mi.txtRangoMM.getText() + ","
+                        + mi.txtEstilo.getText() + ","
+                        + mi.txtCliente.getText() + ","
+                        + mi.txtPO.getText() + ","
+                        + mi.txtPieza.getText() + ","
+                        + mi.txtPeso.getText() + ","
+                        + mi.txtDensidad.getText() + ","
+                        + mi.txtMetrosM.getText() + ","
+                        + mi.txtAnchoM.getText() + ","
+                        + mi.lblFecha.getText() + ","
+                        + mi.lblHora.getText()
+                );
+                qr.setDataMode(QRCode.MODE_BYTE);
+                qr.setUOM(0);
+                qr.setResolution(100000);
+                qr.setRightMargin(0.000f);
+                qr.setTopMargin(0.000f);
+                qr.setLeftMargin(0.000f);
+                qr.setBottomMargin(0.000f);
+                qr.setModuleSize(1);
+                String f = "C:\\FieltrosFinos\\src\\com\\peea\\mx\\FF\\imagenes\\codigo.png";
+                qr.renderBarcode(f);
+                Desktop d = Desktop.getDesktop();
+                d.open(new File(f));
+//To change body of generated methods, choose Tools | Templates.
+            } catch (Exception ex) {
+                Logger.getLogger(controladorInformacion.class.getName()).log(Level.SEVERE, null, ex);
+            }
+        }
     }
 
     public void imprimirArchivo(File archivo) {
@@ -267,12 +312,15 @@ public class controladorMedir {
 
         @Override
         public void actionPerformed(ActionEvent ae) {
-            double valorARestar,valorActual;
-            valorARestar=Double.parseDouble(mi.txtRecorrer.getText());
-            valorActual=Double.parseDouble(mi.txtPulsos.getText());
-            if (valorARestar>0 && valorARestar<=valorActual) {
-                mi.txtPulsos.setText(Double.toString(valorActual-valorARestar));
-                mi.ls.restarContador((int)valorARestar);
+            double valorARestar, valorActual;
+            try {
+                valorARestar = Double.parseDouble(mi.txtRecorrer.getText());
+                valorActual = Double.parseDouble(mi.txtPulsos.getText());
+                if (valorARestar > 0 && valorARestar <= valorActual) {
+                    mi.txtPulsos.setText(Double.toString(valorActual - valorARestar));
+                    mi.ls.restarContador((int) valorARestar);
+                }
+            } catch (NumberFormatException ne) {
             }
 //To change body of generated methods, choose Tools | Templates.
         }

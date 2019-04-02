@@ -17,12 +17,11 @@ import java.io.InputStream;
 import java.util.Enumeration;
 import java.util.LinkedList;
 import javax.swing.JLabel;
-import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JTable;
 import javax.swing.JTextField;
-import javax.swing.table.DefaultTableModel;
 import javax.swing.table.TableColumn;
+import com.peea.mx.Moka7.PlcToJava;
 
 /**
  *
@@ -53,6 +52,7 @@ public class LecturaSer extends Thread {
     JPanel panelizq, panelcentro, panelder;
     public tablaChida tc;
     private JTable jtable;
+    public PlcToJava ptj;
 
     public graficadorLineal getGraf() {
         return graf;
@@ -84,6 +84,7 @@ public class LecturaSer extends Thread {
         this.panelcentro = j2;
         this.panelder = j3;
         this.iniGrafica();
+        ptj = new PlcToJava();
         puertos = CommPortIdentifier.getPortIdentifiers();
         while (puertos.hasMoreElements()) { //para recorrer el numero de los puertos, y especificar con cual quiero trabajar 
             //hasmorelements mientras tenga mas eleementos
@@ -125,85 +126,103 @@ public class LecturaSer extends Thread {
         String valor = "", valorsito = "";
         int aux;
         int contador = 0;
+        ptj.conectar();
+        int estadoPLC, valorPLC, contadorPLC = 0, estadoRetroceso = 0;
 
+        ///COMPORTAMIENTO NORMAL DEL SISTEMA
         while (true) {
             //System.out.println("esperando...");
-            try {
-                valorsito = valor;
-                aux = entrada.read(); // aqui estamos obteniendo nuestro dato serial
-                //Thread.sleep(5);
-                //System.out.println(aux);
-                if (aux > 0) {
+            estadoPLC = ptj.leer(2);
+            if (estadoPLC == 0 && contadorPLC == 0) {
+                try {
+                    valorsito = valor;
+                    aux = entrada.read(); // aqui estamos obteniendo nuestro dato serial
+                    //Thread.sleep(5);
+                    //System.out.println(aux);
+                    if (aux > 0) {
 
-                    //System.out.print();//imprimimos el dato serial
-                    //System.out.print(Integer.decode(Integer.toHexString(aux)));
-                    System.out.print((char) (aux));
-                    valor += (char) (aux);
-                    contador++;
+                        //System.out.print();//imprimimos el dato serial
+                        //System.out.print(Integer.decode(Integer.toHexString(aux)));
+                        System.out.print((char) (aux));
+                        valor += (char) (aux);
+                        contador++;
 
+                    }
+                } catch (Exception e) {
                 }
-            } catch (Exception e) {
-            }
+                //System.out.println(valorsito +"//" +valorsito.length());
+                if (valorsito.length() == 32 && !estado.getText().equals("X")) {
+                    String[] c = valorsito.split(":");
+                    System.out.println(valorsito);
+                    //01A+0006.789
+                    //1:+004.825
+                    //JOptionPan e.showMessageDialog(cont,valorsito);
+                    //JOptionPane.showMessageDialog(cont, valorsito);
 
-            //System.out.println(valorsito +"//" +valorsito.length());
-            if (valorsito.length() == 32 && !estado.getText().equals("X")) {
-                String[] c = valorsito.split(":");
-                System.out.println(valorsito);
-                //01A+0006.789
-                //1:+004.825
-                //JOptionPan e.showMessageDialog(cont,valorsito);
-                //JOptionPane.showMessageDialog(cont, valorsito);
-
-                if (valorsito.charAt(0) == '1') {
-                    label1.setText(valorsito.substring(2, 10));
-                }
-                if (valorsito.charAt(0) == '2') {
-                    label2.setText(valorsito.substring(2, 10));
-                }
-                if (valorsito.charAt(0) == '3') {
-                    label3.setText(valorsito.substring(2, 10));
-                }
-                if (valorsito.charAt(11) == '1') {
-                    label1.setText(valorsito.substring(13, 21));
-                }
-                if (valorsito.charAt(11) == '2') {
-                    label2.setText(valorsito.substring(13, 21));
-                }
-                if (valorsito.charAt(11) == '3') {
-                    label3.setText(valorsito.substring(13, 21));
-                }
-                if (valorsito.charAt(22) == '1') {
-                    label1.setText(valorsito.substring(24, 32));
-                }
-                if (valorsito.charAt(22) == '2') {
-                    label2.setText(valorsito.substring(24, 32));
-                }
-                if (valorsito.charAt(22) == '3') {
-                    label3.setText(valorsito.substring(24, 32));
-                }
-                // JOptionPane.showMessageDialog(null, valorsito);
-                valorsito = "";
-
-            }
-            //System.out.println("Contador:" + contador);
-            if (estado.getText().equals("X")) {
-                contadorPulsos = 0;
-            }
-            if (contador == 33) {
-                contador = 0;
-                if (!estado.getText().equals("X")) {
-                    contadorPulsos++;
-                    Medicion md = new Medicion(contadorPulsos, Double.parseDouble(graf.getJ1().getText()), Double.parseDouble(graf.getJ2().getText()),
-                            Double.parseDouble(graf.getJ3().getText()));
-                    this.linked.add(md);
-                    addToTable(contadorPulsos, md, 1.0, 2.0);
-                    graf.graficar();
-                    grafIzq.graficar();
-                    grafCentro.graficar();
-                    grafDer.graficar();
-                    contador = 0;
+                    if (valorsito.charAt(0) == '1') {
+                        label1.setText(valorsito.substring(2, 10));
+                    }
+                    if (valorsito.charAt(0) == '2') {
+                        label2.setText(valorsito.substring(2, 10));
+                    }
+                    if (valorsito.charAt(0) == '3') {
+                        label3.setText(valorsito.substring(2, 10));
+                    }
+                    if (valorsito.charAt(11) == '1') {
+                        label1.setText(valorsito.substring(13, 21));
+                    }
+                    if (valorsito.charAt(11) == '2') {
+                        label2.setText(valorsito.substring(13, 21));
+                    }
+                    if (valorsito.charAt(11) == '3') {
+                        label3.setText(valorsito.substring(13, 21));
+                    }
+                    if (valorsito.charAt(22) == '1') {
+                        label1.setText(valorsito.substring(24, 32));
+                    }
+                    if (valorsito.charAt(22) == '2') {
+                        label2.setText(valorsito.substring(24, 32));
+                    }
+                    if (valorsito.charAt(22) == '3') {
+                        label3.setText(valorsito.substring(24, 32));
+                    }
+                    // JOptionPane.showMessageDialog(null, valorsito);
                     valorsito = "";
-                    valor = "";
+
+                }
+                //System.out.println("Contador:" + contador);
+                if (estado.getText().equals("X")) {
+                    contadorPulsos = 0;
+                }
+                if (contador == 33) {
+                    contador = 0;
+                    if (!estado.getText().equals("X")) {
+                        contadorPulsos++;
+                        Medicion md = new Medicion(contadorPulsos, Double.parseDouble(graf.getJ1().getText()), Double.parseDouble(graf.getJ2().getText()),
+                                Double.parseDouble(graf.getJ3().getText()));
+                        this.linked.add(md);
+                        addToTable(contadorPulsos, md, 1.0, 2.0);
+                        graf.graficar();
+                        grafIzq.graficar();
+                        grafCentro.graficar();
+                        grafDer.graficar();
+                        contador = 0;
+                        valorsito = "";
+                        valor = "";
+
+                    }
+                }
+                //LA MAQUINA SE MUEVE HACIA ATRÁS
+            } else if (estadoPLC == 1) {
+                estadoRetroceso = ptj.leer(4);
+
+                if (estadoRetroceso == 1) {
+                    //RETROCEDIENDO CON NORMALIDAD
+                    contadorPLC++;
+                } else {
+                    //TERMINO DE RETROCEDER
+                    valorPLC = ptj.leer(4);
+                    this.cont.setText(String.valueOf((Integer.getInteger(this.cont.getText())) - valorPLC));
 
                 }
             }

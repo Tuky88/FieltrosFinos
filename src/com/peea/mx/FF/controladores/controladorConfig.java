@@ -29,10 +29,11 @@ import javax.swing.JOptionPane;
  * @author Sistemas
  */
 public class controladorConfig {
-    
+
     private configuracioniFrame ci;
     LinkedList ls;
-    
+    Cliente cd;
+
     public controladorConfig(configuracioniFrame ci) {
         this.ci = ci;
         ls = leerArchivo();
@@ -40,8 +41,13 @@ public class controladorConfig {
         this.ci.comboCliente.addItemListener(new CambiarCliente());
         this.ci.btnGuardarCliente.addActionListener(new CargarCliente());
         this.ci.btnEliminarCliente.addActionListener(new EliminarCliente());
+        this.ci.btnGuardar.addActionListener(new GuardarCambios());
+        this.ci.btnReset.addActionListener(new Restablecer());
+         cd = (Cliente) ls.get(0);
+        mostrarCliente(cd);
+
     }
-    
+
     private LinkedList leerArchivo() {
         try {
             ls = new LinkedList();
@@ -51,7 +57,7 @@ public class controladorConfig {
             String lectura;
             while ((lectura = br.readLine()) != null) {
                 String separeitor[] = lectura.split(";");
-                Cliente c = new Cliente(separeitor[0], separeitor[1], separeitor[2], separeitor[3]);
+                Cliente c = new Cliente(separeitor[0], separeitor[1], separeitor[2], separeitor[3], separeitor[4]);
                 System.out.println(c.toString());
                 ls.add(c);
             }
@@ -62,7 +68,7 @@ public class controladorConfig {
         }
         return ls;
     }
-    
+
     private void vaciarArchivo() {
         FileWriter fw = null;
         try {
@@ -76,17 +82,17 @@ public class controladorConfig {
             Logger.getLogger(controladorConfig.class.getName()).log(Level.SEVERE, null, ex);
         } catch (IOException ex) {
             Logger.getLogger(controladorConfig.class.getName()).log(Level.SEVERE, null, ex);
-            
+
         }
     }
-    
+
     private void guardarArchivo(Cliente c) {
         FileWriter fw = null;
         try {
             File archivo = new File("C:\\FieltrosFinos\\src\\com\\peea\\mx\\FF\\Archivos\\clientes.axe");
             fw = new FileWriter(archivo, true);
             PrintWriter pw = new PrintWriter(fw);
-            String data = c.getNombre() + ";" + c.getDireccion() + ";" + c.getTelefono() + ";" + c.getPrefMed();
+            String data = c.getNombre() + ";" + c.getDireccion() + ";" + c.getTelefono() + ";" + c.getPrefMed() + ";" + c.getPrefPrint();
             pw.println(data);
             pw.close();
             fw.close();
@@ -94,30 +100,66 @@ public class controladorConfig {
             Logger.getLogger(controladorConfig.class.getName()).log(Level.SEVERE, null, ex);
         } catch (IOException ex) {
             Logger.getLogger(controladorConfig.class.getName()).log(Level.SEVERE, null, ex);
-            
+
         }
     }
-    
+
     private void cargarRegistros(JComboBox combo) {
-        
+
         for (int i = 0; i < ls.size(); i++) {
             Cliente nc = (Cliente) ls.get(i);
             combo.addItem((Object) nc.getNombre());
         }
     }
-    
+
     private void guardarRegistros() {
         vaciarArchivo();
         for (int i = 0; i < ls.size(); i++) {
             guardarArchivo((Cliente) ls.get(i));
         }
     }
-    
-    private class EliminarCliente implements ActionListener {
-        
-        public EliminarCliente() {
+
+    private  class Restablecer implements ActionListener {
+
+        public Restablecer() {
+        }
+
+        @Override
+        public void actionPerformed(ActionEvent ae) {
+            mostrarCliente(cd);
         }
         
+    }
+
+    private class GuardarCambios implements ActionListener {
+
+        public GuardarCambios() {
+        }
+
+        @Override
+        public void actionPerformed(ActionEvent ae) {
+            String pref, imp;
+            if (ci.rbIN.isSelected()) {
+                pref = "2";
+            } else {
+                pref = "1";
+            }
+            if (ci.chkImprimir.isSelected()) {
+                imp = "2";
+            } else {
+                imp = "1";
+            }
+            Cliente c = new Cliente(ci.txtEmpresa.getText(), ci.txtDir.getText(), ci.txtTel.getText(), pref, imp);
+            ls.set(ci.comboCliente.getSelectedIndex(), c);
+            guardarRegistros();
+        }
+    }
+
+    private class EliminarCliente implements ActionListener {
+
+        public EliminarCliente() {
+        }
+
         @Override
         public void actionPerformed(ActionEvent e) {
             int removido = ci.comboCliente.getSelectedIndex();
@@ -130,57 +172,70 @@ public class controladorConfig {
             }
         }
     }
-    
+
+    public void mostrarCliente(Cliente nc) {
+        ci.txtEmpresa.setText(nc.getNombre());
+        ci.txtTel.setText(nc.getTelefono());
+        ci.txtDir.setText(nc.getDireccion());
+        if (nc.getPrefMed() == 1) {
+            ci.rbMM.setSelected(true);
+        } else {
+            ci.rbIN.setSelected(true);
+        }
+        if (nc.getPrefPrint() == 1) {
+            ci.chkImprimir.setSelected(false);
+        } else {
+            ci.chkImprimir.setSelected(true);
+        }
+    }
+
     private class CambiarCliente implements ItemListener {
-        
+
         public CambiarCliente() {
         }
-        
+
         @Override
         public void itemStateChanged(ItemEvent e) {
             Cliente nc = (Cliente) ls.get(ci.comboCliente.getSelectedIndex());
-            ci.txtEmpresa.setText(nc.getNombre());
-            ci.txtTel.setText(nc.getTelefono());
-            ci.txtDir.setText(nc.getDireccion());
-            if (nc.getPrefMed() == 1) {
-                ci.rbMM.setSelected(true);
-            } else {
-                ci.rbIN.setSelected(true);
-            }
-            
+            mostrarCliente(nc);
         }
     }
-    
+
     private class CargarCliente implements ActionListener {
-        
+
         @Override
         public void actionPerformed(ActionEvent e) {
-            String pref;
+            String pref, imp;
             int bandera = 99;
             if (ci.rbIN.isSelected()) {
                 pref = "2";
             } else {
                 pref = "1";
             }
+            if (ci.chkImprimir.isSelected()) {
+                imp = "2";
+            } else {
+                imp = "1";
+            }
             System.out.println(pref);
             for (int i = 0; i < ls.size(); i++) {
-                
+
                 if (ci.txtEmpresa.getText().equals((String) ci.comboCliente.getSelectedItem())) {
                     bandera = 0;
                 }
             }
             if (bandera == 99) {
-                
-                Cliente c = new Cliente(ci.txtEmpresa.getText(), ci.txtDir.getText(), ci.txtTel.getText(), pref);
+
+                Cliente c = new Cliente(ci.txtEmpresa.getText(), ci.txtDir.getText(), ci.txtTel.getText(), pref, imp);
                 ls.add(c);
                 ci.comboCliente.addItem(c.getNombre());
                 guardarArchivo(c);
                 System.out.println(c.toString());
-            }
-            else
+            } else {
                 JOptionPane.showMessageDialog(ci, "YA EXISTE UN ELEMENTO CON ESTE NOMBRE", "ERROR", 1);
+            }
         }
-        
+
     }
-    
+
 }
